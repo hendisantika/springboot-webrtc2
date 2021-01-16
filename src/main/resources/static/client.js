@@ -38,11 +38,7 @@ var input = document.getElementById("messageInput");
 function initialize() {
     var configuration = null;
 
-    peerConnection = new RTCPeerConnection(configuration, {
-        optional: [{
-            RtpDataChannels: true
-        }]
-    });
+    peerConnection = new RTCPeerConnection(configuration);
 
     // Setup ice handling
     peerConnection.onicecandidate = function (event) {
@@ -70,6 +66,10 @@ function initialize() {
 
     dataChannel.onclose = function () {
         console.log("data channel is closed");
+    };
+
+    peerConnection.ondatachannel = function (event) {
+        dataChannel = event.channel;
     };
 }
 
